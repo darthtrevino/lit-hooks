@@ -34,7 +34,7 @@ export class SideEffects implements ReactiveController {
   }
 
   public hostDisconnected() {
-    Object.values(this.effectUnsubscribes).forEach((u) => u());
+    Object.values(this.effectUnsubscribes).forEach((u) => u ? u() : null);
     this.clear();
   }
 
