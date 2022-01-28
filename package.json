@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "shx rm -rf lib/ coverage/",
+    "build": "tsc -b .",
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
+    "prettify": "prettier src --write",
+    "analyze": "lit-analyzer src/**/*.mts",
+    "watch": "yarn tsc -b . -w"
   },
   "author": "Chris Trevino <darthtrevino@gmail.com>",
   "license": "MIT",
@@ -13,14 +18,46 @@
     "@types/eslint": "^8",
     "@types/jest": "^27.4.0",
     "@types/prettier": "^2",
+    "@types/source-map-support": "^0",
+    "core-js": "^3.20.3",
     "eslint": "^8.7.0",
     "jest": "^27.4.7",
     "lit-analyzer": "^1.2.1",
     "prettier": "^2.5.1",
+    "shx": "^0.3.4",
+    "source-map-support": "^0.5.21",
     "ts-lit-plugin": "^1.2.1",
+    "tslib": "^2.3.1",
     "typescript": "^4.5.5"
   },
   "dependencies": {
     "lit": "^2.1.2"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "collectCoverageFrom": [
+      "./lib/**"
+    ],
+    "coveragePathIgnorePatterns": [
+      "__tests__",
+      ".d.mts",
+      ".map"
+    ],
+    "testMatch": [
+      "<rootDir>/lib/**/*.spec.mjs"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".mts"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx",
+      "json",
+      "node",
+      "mts",
+      "mjs"
+    ]
   }
 }

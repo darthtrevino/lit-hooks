@@ -9,3 +9,6 @@
 
 # Output Artifacts
 lib/
+coverage/
+node_modules/
+.swc/
