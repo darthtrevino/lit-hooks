@@ -1,4 +1,4 @@
-import { SideEffects } from "../SideEffects.mjs";
+import { SideEffects } from "../effects.mjs";
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
 
@@ -10,7 +10,9 @@ class CompA extends LitElement {
 
   private renderEffect = () => {
     this.x = 100;
-    return () => (this.y = 75);
+    return () => {
+      this.y = 75;
+    };
   };
 
   override render() {

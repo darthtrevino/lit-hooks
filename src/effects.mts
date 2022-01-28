@@ -3,11 +3,10 @@
  * Licensed under the MIT license. See LICENSE file in the project.
  */
 import type { ReactiveController, ReactiveControllerHost } from "lit";
-import { EffectId, Unsubscribe, EffectFn } from "./types.mjs";
 
 export class SideEffects implements ReactiveController {
   private effectDeps: Record<EffectId, unknown[]> = {};
-  private effectUnsubscribes: Record<EffectId, Unsubscribe | undefined> = {};
+  private effectUnsubscribes: Record<EffectId, Dispose | undefined> = {};
 
   public constructor(private host: ReactiveControllerHost & Element) {
     this.host.addController(this);
@@ -29,17 +28,17 @@ export class SideEffects implements ReactiveController {
   }
 
   public hostDisconnected() {
-    Object.values(this.effectUnsubscribes).forEach((u) => (u ? u() : null));
+    Object.keys(this.effectUnsubscribes).forEach(this.unsubscribeOldEffect);
     this.clear();
   }
 
-  private unsubscribeOldEffect(id: EffectId) {
+  private unsubscribeOldEffect = (id: EffectId) => {
     const prevUnsubscribe = this.effectUnsubscribes[id];
     if (prevUnsubscribe) {
       prevUnsubscribe();
       this.effectUnsubscribes[id] = undefined;
     }
-  }
+  };
 
   private run(id: EffectId, effect: EffectFn) {
     const unsubscribe = effect();
@@ -71,3 +70,7 @@ function shouldRun(currDeps: unknown[], prevDeps: unknown[]): boolean {
 
   return currDeps.every((value, idx) => prevDeps[idx] === value);
 }
+
+export type Dispose = () => void;
+export type EffectId = string | symbol;
+export type EffectFn = () => Dispose | undefined;

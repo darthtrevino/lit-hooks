@@ -1,1 +1,1 @@
-export * from "./effects/index.mjs";
+export * from "./effects.mjs";

@@ -9,7 +9,8 @@
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
     "prettify": "prettier src --write",
     "analyze": "lit-analyzer src/**/*.mts",
-    "watch": "yarn tsc -b . -w"
+    "watch": "yarn tsc -b . -w",
+    "verify": "run-s clean build test prettify analyze"
   },
   "author": "Chris Trevino <darthtrevino@gmail.com>",
   "license": "MIT",
@@ -23,6 +24,7 @@
     "eslint": "^8.7.0",
     "jest": "^27.4.7",
     "lit-analyzer": "^1.2.1",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1",
     "shx": "^0.3.4",
     "source-map-support": "^0.5.21",
