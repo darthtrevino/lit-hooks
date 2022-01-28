@@ -42,7 +42,7 @@ export class Memoization implements ReactiveController {
   }
 
   /**
-   * Use an effect function.
+   * Use a memoization.
    */
   public use<T>(memoFn: MemoFn<T>, deps: MemoDeps): T {
     const id = getHookFunctionId(memoFn);
