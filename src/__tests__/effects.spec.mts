@@ -168,10 +168,10 @@ describe("SideEffects Controller", () => {
 
   it("throws if an effect cannot be identified", () => {
     const comp = new CompNoid();
-    expect(() => comp.render()).toThrow(/Could not get Id for effect/);
+    expect(() => comp.render()).toThrow(/Could not get id for hook function/);
   });
 
-  it("throws if an effect cannot be identified", () => {
+  it("throws if the hook dependency list changes length", () => {
     const comp = new CompDepsDifferent();
     comp.render();
     expect(() => comp.render()).toThrow(
