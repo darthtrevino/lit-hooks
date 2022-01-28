@@ -61,9 +61,6 @@ export type Dispose = () => void;
 export type EffectFn = () => Dispose | void;
 export type EffectDeps = unknown[] | undefined;
 
-/**
- * Checks hook dependencies to see if it should run (memoization, effects)
- */
 function shouldRun(currDeps: EffectDeps, prevDeps: EffectDeps): boolean {
   if (currDeps == null && prevDeps == null) {
     return true;
