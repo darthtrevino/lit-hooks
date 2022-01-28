@@ -9,6 +9,7 @@
     "web-components",
     "hooks"
   ],
+  "repository": "github:darthtrevino/lit-hooks",
   "scripts": {
     "clean": "shx rm -rf lib/ coverage/",
     "build": "tsc -b .",
