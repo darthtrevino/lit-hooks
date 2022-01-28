@@ -42,7 +42,7 @@ export class Memoization implements ReactiveController {
   }
 
   /**
-   * Use an effect function.
+   * Use a memoization.
    */
   public use<T>(memoFn: MemoFn<T>, deps: MemoDeps): T {
     const id = getHookFunctionId(memoFn);
@@ -76,9 +76,6 @@ export class Memoization implements ReactiveController {
 export type MemoFn<T> = () => T;
 export type MemoDeps = unknown[];
 
-/**
- * Checks hook dependencies to see if it should run (memoization, effects)
- */
 function shouldRun(currDeps: MemoDeps, prevDeps: MemoDeps): boolean {
   if (currDeps == null) {
     throw new Error('memoization deps must be defined')
