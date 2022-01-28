@@ -1,6 +1,6 @@
 {
   "name": "lit-hooks",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "lib/index.mjs",
   "type": "module",
@@ -19,7 +19,7 @@
     "verify": "run-s clean build test prettify analyze"
   },
   "files": [
-    "./lib/**"
+    "./lib/*"
   ],
   "author": "Chris Trevino <darthtrevino@gmail.com>",
   "license": "MIT",
