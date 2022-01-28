@@ -5,7 +5,7 @@
 import type { ReactiveController, ReactiveControllerHost } from "lit";
 
 export class SideEffects implements ReactiveController {
-  private effectDeps: Record<EffectId, unknown[]> = {};
+  private effectDeps: Record<EffectId, EffectDeps> = {};
   private effectUnsubscribes: Record<EffectId, Dispose | undefined> = {};
 
   public constructor(private host: ReactiveControllerHost & Element) {
@@ -15,11 +15,13 @@ export class SideEffects implements ReactiveController {
   /**
    * Use an effect function.
    */
-  public use(effect: EffectFn, deps: unknown[]) {
+  public use(effect: EffectFn, deps?: EffectDeps) {
     const id = getId(effect);
-    if (shouldRun(deps, this.effectDeps[id])) {
+    const prevDeps = this.effectDeps[id];
+    if (shouldRun(deps, prevDeps)) {
       this.unsubscribeOldEffect(id);
       this.run(id, effect);
+      this.effectDeps[id] = deps;
     }
   }
 
@@ -60,17 +62,22 @@ function getId(effect: EffectFn): string {
       "Could not get Id for effect. The function must have a name"
     );
   }
+  6;
   return id;
 }
 
-function shouldRun(currDeps: unknown[], prevDeps: unknown[]): boolean {
+function shouldRun(currDeps: EffectDeps, prevDeps: EffectDeps): boolean {
+  if (currDeps == null && prevDeps == null) {
+    return true;
+  }
   if (!prevDeps) return true;
-  if (currDeps.length !== prevDeps.length)
-    throw new Error("effect dependency length should not change");
+  if (currDeps?.length !== prevDeps.length)
+    throw new Error("Effect dependency length should not change");
 
-  return currDeps.every((value, idx) => prevDeps[idx] === value);
+  return !currDeps.every((value, idx) => prevDeps[idx] === value);
 }
 
+export type EffectDeps = unknown[] | undefined;
 export type Dispose = () => void;
 export type EffectId = string | symbol;
-export type EffectFn = () => Dispose | undefined;
+export type EffectFn = () => Dispose | void;

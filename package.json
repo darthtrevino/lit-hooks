@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "shx rm -rf lib/ coverage/",
     "build": "tsc -b .",
-    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest) --coverage",
     "prettify": "prettier src --write",
     "analyze": "lit-analyzer src/**/*.mts",
     "watch": "yarn tsc -b . -w",
